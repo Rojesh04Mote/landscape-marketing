@@ -32,7 +32,7 @@ const Navbar = () => {
                 fontWeight: 600
                 , fontFamily: 'sans-serif',
             }}>
-                Landscape Marketing
+                Green Branch
             </div>
             <div style={{
                 display: 'flex',
