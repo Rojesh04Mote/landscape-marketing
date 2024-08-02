@@ -1,0 +1,49 @@
+
+  * {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0 !important;
+  }
+  
+  html,
+  body {
+    
+  }
+  
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .navbarText{
+    color:white;
+    cursor:pointer;
+    font-size: 14px;
+    font-family: sans-serif;
+    transition: transform 0.2s; /* Smooth transition effect */
+
+  }
+  .navbarText:hover{
+    color:white;
+    cursor:pointer;
+    font-size: 14px;
+    font-family: sans-serif;
+    transform: translateY(-2px); /* Move text up by 2 pixels */
+
+  }
+  .servicesCard{
+display: flex;
+flex-direction: column;
+cursor: pointer;
+transition: transform 0.2s; /* Smooth transition effect */
+
+
+  }
+  .servicesCard:hover{
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    transform: translateY(-2px); /* Move text up by 2 pixels */
+    
+      }
+ 
