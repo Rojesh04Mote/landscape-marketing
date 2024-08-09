@@ -6,7 +6,12 @@ import { useSelector } from 'react-redux'
 
 const Homepage = () => {
     const router = useRouter()
-    const windowHeight = window.innerHeight
+    let windowHeight;
+
+    if (typeof window !== 'undefined') {
+        windowHeight = window.innerHeight;
+    } else {
+    }
     const navTolistpage = (name) => {
 
         router.push({
