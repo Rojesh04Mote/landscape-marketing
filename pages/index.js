@@ -3,8 +3,7 @@
  * @returns {Home} - returns home page
  */
 
-import Navbar from "@/components/elements/Navbar";
-import Homepage from "@/components/modules/home";
+
 import Head from "next/head";
 
 
@@ -13,7 +12,7 @@ const Home = () => {
         <>
 
             <Head>
-                <title>Landscape-marketing</title>
+                <title>Green branch</title>
             </Head>
 
         </>
