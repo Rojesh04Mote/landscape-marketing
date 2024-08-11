@@ -1,8 +1,9 @@
 import { useRouter } from 'next/router';
 import React, { useEffect, useRef, useState } from 'react';
 import Typography from '../Typography';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { navbarheight } from '@/store/action/navbar';
+import Loading from '../Loading';
 
 
 const Navbar = () => {
@@ -16,6 +17,7 @@ const Navbar = () => {
     const navToContactus = () => {
         router.push("/contact-us")
     }
+    const loading = useSelector((state) => state.loadingReducer.isLoading);
 
     const navbarRef = useRef(null);
     const [navbarHeight, setNavbarHeight] = useState(0);
@@ -64,7 +66,11 @@ const Navbar = () => {
 
                 </div>
             </div>
-
+            {loading && (
+                <div className="Overlay">
+                    <Loading />
+                </div>
+            )}
             <nav className='navbar'>
                 <a onClick={navToHome} className='navbarText'>Home</a>
                 <a onClick={navToServices} className='navbarText'>Services</a>

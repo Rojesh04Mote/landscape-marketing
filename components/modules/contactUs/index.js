@@ -50,9 +50,7 @@ const ContactUsPage = () => {
                     <Form.Item name="phone_number" label="Phone number" style={{ paddingBottom: 12 }}>
                         <Input style={{ border: "1px solid #2E8B57", }} placeholder='Enter your phone number' />
                     </Form.Item>
-                    <Form.Item name="msg" label="Your message" style={{ paddingBottom: 12 }}>
-                        <TextArea style={{ border: "1px solid #2E8B57", }} placeholder='Your message for us' rows={2} />
-                    </Form.Item>
+
                     <Form.Item name="services_required" label="Services Required" style={{ paddingBottom: 12 }}>
                         <TextArea style={{ border: "1px solid #2E8B57", }} placeholder='Services that you need' rows={2} />
                     </Form.Item>

@@ -1,20 +1,49 @@
 import ServicesDescriptionModal from '@/components/elements/Modal'
 import Typography from '@/components/elements/Typography'
+import { setLoading } from '@/store/action/loading'
 import { Image } from 'antd'
 import { useRouter } from 'next/router'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
 
 const ServicesPage = () => {
     const router = useRouter()
     const [ismodalOpen, setIsMOdalOpen] = useState(false)
+    const [allservices, setAllServices] = useState()
+    const [ids, setId] = useState("")
+    const dispatch = useDispatch()
     const handleCancel = () => {
         setIsMOdalOpen(false)
     }
-    const OpenModal = () => {
+    const OpenModal = (id) => {
+        setId(id)
+
         setIsMOdalOpen(true)
     }
+    const fetchAllServices = async () => {
+        try {
+            dispatch(setLoading(true));
 
+            const response = await fetch("https://a023-174-68-14-17.ngrok-free.app/api/services/all");
+            if (!response.ok) {
+                throw new Error('Network response was not ok ' + response.statusText);
+            }
+            const data = await response.json();
+            setAllServices(data)
+            dispatch(setLoading(false));
+
+        } catch (error) {
+            dispatch(setLoading(false));
+
+        } finally {
+        }
+    };
+    useEffect(() => {
+        fetchAllServices()
+    }, [])
     //pale mint bg = "#E0F8E0
+    const data = allservices?.filter(item => item.id === ids);
+
     return (
         <>
             <div style={{
@@ -26,58 +55,21 @@ const ServicesPage = () => {
                 <Typography style={{ display: "flex", flexDirection: "row", justifyContent: "center", paddingBottom: 24 }} variant="text16" >Transforming Spaces, Elevating Lifestyles </Typography>
 
                 <div className='grid4'>
-                    <div onClick={OpenModal} className='servicesCard' >
-                        <img src='./images/imag1.jpg' style={{ width: "100%", height: 300, borderRadius: 16 }} />
-                        <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-                            <Typography variant="heading16" >Lawn mowing  </Typography>
-                        </div>
-                    </div>
-                    <div onClick={OpenModal} className='servicesCard' >
-                        <img src='./images/imag4.jpeg' style={{ width: "100%", height: 300, borderRadius: 16 }} />
+                    {allservices?.map((item, index) => {
+                        return (
+                            <div key={index} onClick={() => OpenModal(item.id)} className='servicesCard' >
+                                <img src={item.services_list_pic[0]?.images} style={{ width: "100%", height: 300, borderRadius: 16 }} />
+                                <div style={{ display: "flex", flexDirection: "column", alignItems: "center", paddingTop: 8 }}>
+                                    <Typography variant="heading16" >{item.name} </Typography>
+                                </div>
+                            </div>
+                        )
+                    })}
 
-                        <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-                            <Typography variant="heading16" >Mulch </Typography>
-                        </div>
-                    </div>
 
-                    <div onClick={OpenModal} className='servicesCard' >
-                        <img src='./images/imag1.jpg' style={{ width: "100%", height: 300, borderRadius: 16 }} />
-
-                        <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-                            <Typography variant="heading16" >Flower beds </Typography>
-                        </div>
-                    </div>
-                    <div onClick={OpenModal} className='servicesCard' >
-                        <img src='./images/imag4.jpeg' style={{ width: "100%", height: 300, borderRadius: 16 }} />
-
-                        <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-                            <Typography variant="heading16" >French drain </Typography>
-                        </div>
-                    </div>
-                    <div onClick={OpenModal} className='servicesCard' >
-                        <img src='./images/imag1.jpg' style={{ width: "100%", height: 300, borderRadius: 16 }} />
-
-                        <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-                            <Typography variant="heading16" >Sprinker System </Typography>
-                        </div>
-                    </div>
-                    <div onClick={OpenModal} className='servicesCard' >
-                        <img src='./images/imag4.jpeg' style={{ width: "100%", height: 300, borderRadius: 16 }} />
-
-                        <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-                            <Typography variant="heading16" >Pavers </Typography>
-                        </div>
-                    </div>
-                    <div onClick={OpenModal} className='servicesCard' >
-                        <img src='./images/imag4.jpeg' style={{ width: "100%", height: 300, borderRadius: 16 }} />
-
-                        <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-                            <Typography variant="heading16" >Exterior Repair </Typography>
-                        </div>
-                    </div>
                 </div>
             </div>
-            <ServicesDescriptionModal isModalOpen={ismodalOpen} handleCancel={handleCancel} />
+            <ServicesDescriptionModal isModalOpen={ismodalOpen} handleCancel={handleCancel} serviceData={data} />
         </>
     )
 }

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-let devIp = "";
+let devIp = "3451-174-68-14-17.ngrok-free.app";
 
 let serverAdd = "";
 if (typeof window !== "undefined") {
@@ -8,7 +8,7 @@ if (typeof window !== "undefined") {
 }
 
 export const getUrl = () => {
-    let url = `http://${devIp}/api/admin`;
+    let url = `https://${devIp}/`;
     if (process.env.NODE_ENV === "production") {
         //     url = `https://${process.env.NEXT_PUBLIC_API_URI}/api`
         // url = `https://${prodUrl}/api`;
@@ -73,7 +73,7 @@ axios.interceptors.response.use(
 export const GET = (url) => {
     return axios.get(url, {
         headers: get_headers(),
-        //  withCredentials: true,
+        withCredentials: true,
     });
 };
 
