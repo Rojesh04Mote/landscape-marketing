@@ -247,3 +247,7 @@ width: 100%;
     transform: rotate(360deg);
   }
 }
+.custom-notification .ant-notification-notice-message,
+.custom-notification .ant-notification-notice-description {
+    text-align: center; /* Ensures both the message and description are centered */
+}

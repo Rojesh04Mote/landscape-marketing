@@ -24,7 +24,7 @@ const ServicesPage = () => {
         try {
             dispatch(setLoading(true));
 
-            const response = await fetch("https://a023-174-68-14-17.ngrok-free.app/api/services/all");
+            const response = await fetch("https://0cfc-2600-8803-950d-fd00-df41-9b37-b7d2-c3bc.ngrok-free.app/api/services/all");
             if (!response.ok) {
                 throw new Error('Network response was not ok ' + response.statusText);
             }

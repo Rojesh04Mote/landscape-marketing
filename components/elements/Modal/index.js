@@ -1,12 +1,14 @@
 import { Card, Empty, Modal } from 'antd'
-import React from 'react'
+import React, { useEffect } from 'react'
 import Typography from '../Typography'
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 
 const ServicesDescriptionModal = ({ isModalOpen, handleCancel, serviceData }) => {
 
-
+    useEffect(() => {
+    }, [isModalOpen, serviceData
+    ])
     return (
         <>
             <Modal style={{ position: "relative", left: "10%", }}
@@ -18,7 +20,9 @@ const ServicesDescriptionModal = ({ isModalOpen, handleCancel, serviceData }) =>
             >
                 <div className='modal'>
                     <div >
-                        <Carousel showThumbs={false} infiniteLoop autoPlay>
+                        <Carousel
+                            showArrows={false}
+                            showThumbs={false} infiniteLoop autoPlay>
 
                             {serviceData && serviceData[0]?.services_list_pic?.map((item, index) => {
                                 return (

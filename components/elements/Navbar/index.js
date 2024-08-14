@@ -4,6 +4,7 @@ import Typography from '../Typography';
 import { useDispatch, useSelector } from 'react-redux';
 import { navbarheight } from '@/store/action/navbar';
 import Loading from '../Loading';
+import { setLoading } from '@/store/action/loading';
 
 
 const Navbar = () => {
@@ -18,10 +19,32 @@ const Navbar = () => {
         router.push("/contact-us")
     }
     const loading = useSelector((state) => state.loadingReducer.isLoading);
+    const [contactList, setContactList] = useState()
 
     const navbarRef = useRef(null);
     const [navbarHeight, setNavbarHeight] = useState(0);
     const dispatch = useDispatch()
+    const fetchcontactlist = async () => {
+        try {
+            dispatch(setLoading(true));
+
+            const response = await fetch("https://0cfc-2600-8803-950d-fd00-df41-9b37-b7d2-c3bc.ngrok-free.app/api/user/list");
+            if (!response.ok) {
+                throw new Error('Network response was not ok ' + response.statusText);
+            }
+            const data = await response.json();
+            setContactList(data)
+            dispatch(setLoading(false));
+
+        } catch (error) {
+            dispatch(setLoading(false));
+
+        }
+    };
+    useEffect(() => {
+        fetchcontactlist()
+    }, [])
+
     useEffect(() => {
         const updateNavbarHeight = () => {
             if (navbarRef.current) {
@@ -60,9 +83,9 @@ const Navbar = () => {
                     Green branch(logo)
                 </div>
                 <div style={{ display: "flex", flexDirection: "row", gap: 24 }}>
-                    <Typography style={{ color: "#2E8B57" }} variant="heading14">405 676-3003</Typography>
+                    <Typography style={{ color: "#2E8B57" }} variant="heading14">{contactList ? contactList[1]?.username : ""}</Typography>
                     <Typography style={{ color: "#2E8B57" }} variant="heading14">24-hr service</Typography>
-                    <Typography style={{ color: "#2E8B57" }} variant="heading14">greenbranchkllc@gmail.com</Typography>
+                    <Typography style={{ color: "#2E8B57" }} variant="heading14">{contactList ? contactList[1]?.email : ""}</Typography>
 
                 </div>
             </div>
