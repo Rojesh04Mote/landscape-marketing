@@ -1,3 +1,4 @@
+import * as React from 'react';
 import Navbar from "@/components/elements/Navbar";
 import '../styles/globals.css';
 import thunk from 'redux-thunk';
@@ -6,15 +7,18 @@ import { Provider } from 'react-redux';
 import { createWrapper } from 'next-redux-wrapper';
 import { legacy_createStore as createStore, compose, applyMiddleware } from "redux";
 
+
 const composeEnhancers =
-    (typeof window === "object" && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) ||
-    compose;
+    typeof window !== "undefined" && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+        ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+        : compose;
+
 const enhancer = composeEnhancers(
     applyMiddleware(thunk)
 );
-const store = createStore(rootReducer, enhancer);
+const makeStore = () => createStore(rootReducer, enhancer);
 
-const makeStore = () => store;
+
 
 const wrapper = createWrapper(makeStore);
 
@@ -22,7 +26,7 @@ function MyApp({ Component, pageProps }) {
 
 
     return (
-        <Provider store={store}>
+        <Provider store={makeStore()}>
             <Navbar />
             <Component {...pageProps} />
 

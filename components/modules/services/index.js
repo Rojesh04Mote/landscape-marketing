@@ -1,10 +1,10 @@
+import React, { useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
 import ServicesDescriptionModal from '@/components/elements/Modal'
 import Typography from '@/components/elements/Typography'
 import { setLoading } from '@/store/action/loading'
-import { Image } from 'antd'
 import { useRouter } from 'next/router'
-import React, { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
+
 
 const ServicesPage = () => {
     const router = useRouter()
@@ -24,7 +24,7 @@ const ServicesPage = () => {
         try {
             dispatch(setLoading(true));
 
-            const response = await fetch("https://0cfc-2600-8803-950d-fd00-df41-9b37-b7d2-c3bc.ngrok-free.app/api/services/all");
+            const response = await fetch("https://5678-2600-8803-950d-fd00-21ea-836-76f9-9c66.ngrok-free.app/api/services/all");
             if (!response.ok) {
                 throw new Error('Network response was not ok ' + response.statusText);
             }

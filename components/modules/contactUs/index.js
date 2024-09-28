@@ -1,25 +1,26 @@
 import React, { useEffect, useState } from 'react';
-import { Form, Input, Button, Card } from 'antd';
+import { Form, Input, Button, Card, Upload } from 'antd';
 import { FacebookOutlined, InstagramOutlined, MessageOutlined, PhoneOutlined, TwitterOutlined, LinkedinOutlined } from '@ant-design/icons';
 import Typography from '@/components/elements/Typography';
-import TextArea from 'antd/es/input/TextArea';
 import { useDispatch } from 'react-redux';
 import { setLoading } from '@/store/action/loading';
 import SuccessNotification from "@/components/elements/Notification/index"
 import ErrorNotifi from "@/components/elements/Notification/index"
-
+import { UploadOutlined } from "@ant-design/icons";
+// import ReactPlayer from 'react-player';
 
 const ContactUsPage = () => {
     const [contactList, setContactList] = useState()
     const [form] = Form.useForm();
-
+    const [FeaturedImage, setFeaturedImage] = useState([]);
+    const { TextArea } = Input;
 
     const dispatch = useDispatch()
     const fetchcontactlist = async () => {
         try {
             dispatch(setLoading(true));
 
-            const response = await fetch("https://0cfc-2600-8803-950d-fd00-df41-9b37-b7d2-c3bc.ngrok-free.app/api/user/list");
+            const response = await fetch("https://5678-2600-8803-950d-fd00-21ea-836-76f9-9c66.ngrok-free.app/api/user/list");
             if (!response.ok) {
                 throw new Error('Network response was not ok ' + response.statusText);
             }
@@ -36,43 +37,91 @@ const ContactUsPage = () => {
     useEffect(() => {
         fetchcontactlist()
     }, [])
+
+    // const ContactPostRequest = async (value) => {
+    //     try {
+    //         dispatch(setLoading(true));
+    //         let formData = new FormData();
+
+    //         // Append text fields
+    //         formData.append('username', value?.username);
+    //         formData.append('email', value?.email);
+    //         formData.append('contact_number', value?.contact_number);
+    //         formData.append('service_required', value?.service_required);
+
+    //         // Append image file if it exists
+    //         if (FeaturedImage) {
+    //             FeaturedImage.forEach((item, index) => {
+    //                 formData.append(`contact_form_pic`, item.originFileObj);
+    //             });
+    //         }
+
+    //         const response = await fetch("https://5678-2600-8803-950d-fd00-21ea-836-76f9-9c66.ngrok-free.app/api/contacts/", {
+    //             method: 'POST',
+    //             body: formData,
+    //             headers: {
+    //                 'Content-Type': 'multipart/form-data',
+    //             },
+    //             // No need to set 'Content-Type', browser will set it automatically
+    //         });
+    //         dispatch(setLoading(false));
+    //         // form.resetFields();
+
+    //         if (response.ok) {
+    //             SuccessNotification("success", "Success", "Your information has been submitted successfully");
+    //         } else {
+    //             ErrorNotifi("error", "Error", "There was an issue submitting your information.");
+    //         }
+    //     } catch (error) {
+    //         console.log("error", error);
+    //         ErrorNotifi("error", "Error", "There was an issue with the request.");
+    //     }
+    // };
+
     const ContactPostRequest = async (value) => {
         try {
             dispatch(setLoading(true));
 
-            const response = await fetch("https://0cfc-2600-8803-950d-fd00-df41-9b37-b7d2-c3bc.ngrok-free.app/api/contacts/", {
+            // Prepare the data to be sent
+            const dataToSend = {
+                username: value?.username,
+                email: value?.email,
+                contact_number: value?.contact_number,
+                service_required: value?.service_required,
+                contact_form_pic: FeaturedImage.map((item, index) => { return item })
+            };
+            console.log(FeaturedImage, "asdsa")
+            const response = await fetch("https://5678-2600-8803-950d-fd00-21ea-836-76f9-9c66.ngrok-free.app/api/contacts/", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({
-                    username: value?.username,
-                    email: value?.email,
-                    contact_number: value?.contact_number,
-                    service_required: value?.service_required
-                })
+                body: JSON.stringify(dataToSend), // Convert the object to JSON
             });
 
             dispatch(setLoading(false));
-            form.resetFields()
+            // form.resetFields();
+
             if (response.ok) {
-                SuccessNotification("success", "Success", "Your information has been submitted successfully")
-
+                SuccessNotification("success", "Success", "Your information has been submitted successfully");
             } else {
-                ErrorNotifi("error", "Error", "There was an issue submitting your information.")
-
+                ErrorNotifi("error", "Error", "There was an issue submitting your information.");
             }
         } catch (error) {
             console.log("error", error);
-
+            ErrorNotifi("error", "Error", "There was an issue with the request.");
         }
     };
 
+    const handleupload = (event) => {
+        const fileList = event?.fileList?.map((item) => ({ ...item }));
+        setFeaturedImage(fileList);
+    };
     return (
         <div style={{ display: "flex", flexDirection: "column", gap: 16, padding: '24px', }}>
             <div style={{ display: "flex", flexDirection: "column", gap: 16, textAlign: 'center', paddingBottom: 30 }}>
                 <Typography variant="heading18">Contact Us</Typography>
-                <Typography variant="text14">We're here to help and answer any questions you might have. We look forward to hearing from you!</Typography>
+                <Typography variant="text14">We are here to help and answer any questions you might have. We look forward to hearing from you!</Typography>
 
             </div>
 
@@ -146,16 +195,6 @@ const ContactUsPage = () => {
                     <Form.Item
 
                         name="email" label="Email" style={{ paddingBottom: 12 }}
-                        rules={[
-                            {
-                                type: 'email',
-                                message: 'Please enter a valid email address!',
-                            },
-                            {
-                                required: true,
-                                message: 'Email is required!',
-                            },
-                        ]}
 
                     >
                         <Input style={{ border: "1px solid #2E8B57", }} placeholder='Enter your email' />
@@ -178,6 +217,16 @@ const ContactUsPage = () => {
                     <Form.Item name="service_required" label="Services Required" style={{ paddingBottom: 12 }}>
                         <TextArea style={{ border: "1px solid #2E8B57", }} placeholder='Services that you need' rows={2} />
                     </Form.Item>
+                    <Form.Item label="Upload image for service" style={{ paddingBottom: 12 }}>
+                        <Upload
+                            beforeUpload={() => {
+                                return false;
+                            }}
+                            onChange={handleupload}
+                        >
+                            <Button icon={<UploadOutlined />}>Upload</Button>
+                        </Upload>
+                    </Form.Item>
                     <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
                         <Button onClick={() => ContactPostRequest(form.getFieldsValue())} style={{ backgroundColor: "#2E8B57", color: "white" }} type="secondary"
                         > Submit
@@ -186,7 +235,14 @@ const ContactUsPage = () => {
                 </Form>
 
             </div>
-
+            {/* <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", textAlign: 'center', marginTop: '40px', gap: 8 }}>
+                <Typography variant="heading18">VIDEO</Typography>
+                <ReactPlayer
+                    url={`./images/Video.MOV`} // Adjust the path as needed
+                    width="600px"
+                    controls
+                />
+            </div> */}
             <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", textAlign: 'center', marginTop: '40px', gap: 8 }}>
                 <Typography variant="heading18">Connect with us</Typography>
                 <Typography variant="text14">Follow us on social media:</Typography>
@@ -198,8 +254,9 @@ const ContactUsPage = () => {
                     <a href="https://www.linkedin.com/in/alfredo" style={{ margin: '0 10px' }}><LinkedinOutlined style={{ fontSize: '24px' }} /></a>
                 </div>
             </div>
+
         </div>
     )
-}
+};
 
 export default ContactUsPage
