@@ -29,7 +29,7 @@ const Homepage = () => {
         try {
             dispatch(setLoading(true));
 
-            const response = await fetch("https://5678-2600-8803-950d-fd00-21ea-836-76f9-9c66.ngrok-free.app/api/services");
+            const response = await fetch("https://3b69-2600-8803-950d-fd00-7937-d04e-c0e1-2c90.ngrok-free.app/api/services");
             if (!response.ok) {
                 throw new Error('Network response was not ok ' + response.statusText);
             }
