@@ -1,61 +1,49 @@
-import { Card, Empty, Modal } from "antd";
+import { Card, Empty, Flex, Modal } from "antd";
 import React, { useEffect } from "react";
 import Typography from "../Typography";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
+import ReactPlayer from "react-player";
 
 const ServicesDescriptionModal = ({
   isModalOpen,
   handleCancel,
-  serviceData,
+  videostatus,
+  itemList,
 }) => {
-  useEffect(() => {}, [isModalOpen, serviceData]);
+  const videoUrl =
+    itemList && itemList?.services_list_videos?.map((item) => item?.videos);
+  const beforeurl =
+    videoUrl?.length > 0 && videoUrl?.map((item) => item?.before);
+  const afterurl = videoUrl?.length > 0 && videoUrl?.map((item) => item?.after);
+
   return (
     <>
       <Modal
-        style={{ position: "relative", left: "10%" }}
-        width={"80%"}
-        title="Details"
+        width={"60%"}
+        title={videostatus === "before" ? "Before Video" : "After Video"}
         open={isModalOpen}
         onCancel={handleCancel}
         footer={false}
+        centered={true}
       >
-        <div className="modal">
-          <div>
-            <Carousel
-              showArrows={false}
-              showThumbs={false}
-              infiniteLoop
-              autoPlay
-            >
-              {serviceData &&
-                serviceData[0]?.services_list_pic?.map((item, index) => {
-                  return (
-                    <div key={index}>
-                      <img
-                        src={item.images}
-                        style={{ height: 400, borderRadius: 8 }}
-                      />
-                    </div>
-                  );
-                })}
-            </Carousel>
-          </div>
-          <div style={{ overflow: "scroll" }}>
-            <Typography
-              style={{ textAlign: "center", paddingBottom: 16 }}
-              variant="heading16"
-            >
-              Description
-            </Typography>
-            <Typography
-              style={{ color: "gray", width: "80%" }}
-              variant="text14"
-            >
-              {serviceData ? serviceData[0]?.description : ""}
-            </Typography>
-          </div>
-        </div>
+        <Flex style={{padding:16}}>
+          {videostatus === "before" ? (
+            <ReactPlayer
+              url={beforeurl[0]} // Adjust the path as needed
+              width={"100%"}
+              controls
+              playing={true}
+            />
+          ) : (
+            <ReactPlayer
+              url={afterurl[0]} // Adjust the path as needed
+              width={"100%"}
+              controls
+              playing={true}
+            />
+          )}
+        </Flex>
       </Modal>
     </>
   );

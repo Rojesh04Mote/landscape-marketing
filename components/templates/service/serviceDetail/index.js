@@ -3,15 +3,29 @@ import { useDispatch } from "react-redux";
 import { setLoading } from "@/store/action/loading";
 import { useRouter } from "next/router";
 import Typography from "@/components/elements/Typography";
-import { Carousel, Flex } from "antd";
+import { Button, Flex } from "antd";
+import SimpleImageSlider from "react-simple-image-slider";
+import ServicesDescriptionModal from "@/components/elements/Modal";
 
 const ServiceInfoDetail = () => {
   const router = useRouter();
   const dispatch = useDispatch();
+  const { item } = router.query;
 
-  const routerId = router?.query?.id;
+  const [serviceItem, setServiceItem] = useState(null);
+  console.log("🚀 ~ ServiceInfoDetail ~ serviceItem:", serviceItem);
+
+  useEffect(() => {
+    if (item) {
+      const parsedItem = JSON.parse(item); // Deserialize the item object
+      setServiceItem(parsedItem);
+    }
+  }, [item]);
 
   const [allservices, setAllServices] = useState();
+  const [videostatus, setVideoStatus] = useState("");
+  const [ismodalOpen, setIsMOdalOpen] = useState(false);
+
   useEffect(() => {
     fetchAllServices();
   }, []);
@@ -21,7 +35,7 @@ const ServiceInfoDetail = () => {
       dispatch(setLoading(true));
 
       const response = await fetch(
-        "https://3b69-2600-8803-950d-fd00-7937-d04e-c0e1-2c90.ngrok-free.app/api/services/all"
+        "https://d4a4-2600-8803-950d-fd00-1518-5477-26ec-8519.ngrok-free.app/api/services/all"
       );
       if (!response.ok) {
         throw new Error("Network response was not ok " + response.statusText);
@@ -34,41 +48,72 @@ const ServiceInfoDetail = () => {
     } finally {
     }
   };
+
   const values = allservices?.filter(
-    (item) => Number(item?.id) === Number(routerId)
+    (items) => Number(items?.id) === Number(serviceItem?.id)
   );
-  console.log("DATA", values);
+
+  const handleCancel = () => {
+    setIsMOdalOpen(false);
+  };
+
+  const OpenModal = (status) => {
+    setVideoStatus(status);
+    setIsMOdalOpen(true);
+  };
+
 
   return (
     <div>
-      <Flex vertical style={{ padding: 24 }} gap={24}>
-        <Carousel showArrows={false} showThumbs={false} infiniteLoop autoPlay>
-          {values &&
-            values.length > 0 &&
-            values.map((item, index) => {
-              // Log the item
+      <Flex vertical style={{ padding: 16 }} gap={24}>
+        {values &&
+          values.length > 0 &&
+          values.map((item, index) => {
+            const sliderImages = item.services_list_pic.map((pic) => ({
+              url: pic?.images,
+            }));
 
-              // Check if services_list_pic has items
-              return (
-                item?.services_list_pic?.length > 0 &&
-                item.services_list_pic.map((pic, picIndex) => {
-                  // Log each pic
-                  console.log(`Service ${picIndex} of Item ${index}:`, pic);
+            return (
+              <div key={index}>
+                {sliderImages.length > 0 && (
+                  <SimpleImageSlider
+                    width={"98%"}
+                    height={350}
+                    images={sliderImages}
+                    showBullets={true}
+                    showNavs={true}
+                    bgColor="#f9f9f9"
+                    slideDuration={0.5}
+                    autoPlay={true}
+                    autoPlayDelay={3.0}
+                    style={{ objectFit: "cover" }}
+                  />
+                )}
+              </div>
+            );
+          })}
 
-                  return (
-                    <div key={picIndex}>
-                      <img
-                      width={"100%"}
-                        src={pic?.images}
-                        style={{ height: "400px", borderRadius: 8 }}
-                      />
-                    </div>
-                  );
-                })
-              );
-            })}
-        </Carousel>
-        <div style={{ overflow: "scroll" }}>
+        <Flex style={{ overflow: "scroll" }} vertical gap={16}>
+          <Typography
+            style={{ textAlign: "center", paddingBottom: 16 }}
+            variant="heading16"
+          >
+            Watch some video!!
+          </Typography>
+          <Flex justify="space-evenly" gap={12}>
+            <Button
+              onClick={() => OpenModal("before")}
+              style={{ backgroundColor: "#2E8B57", color: "white" }}
+            >
+              Before Video
+            </Button>
+            <Button
+              onClick={() => OpenModal("after")}
+              style={{ backgroundColor: "#2E8B57", color: "white" }}
+            >
+              After Video
+            </Button>
+          </Flex>
           <Typography
             style={{ textAlign: "center", paddingBottom: 16 }}
             variant="heading16"
@@ -81,8 +126,15 @@ const ServiceInfoDetail = () => {
           >
             {values ? values[0]?.description : ""}
           </Typography>
-        </div>
+        </Flex>
       </Flex>
+
+      <ServicesDescriptionModal
+        isModalOpen={ismodalOpen}
+        handleCancel={handleCancel}
+        videostatus={videostatus}
+        itemList={serviceItem}
+      />
     </div>
   );
 };

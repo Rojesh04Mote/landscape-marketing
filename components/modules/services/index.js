@@ -24,7 +24,7 @@ const ServicesPage = () => {
       dispatch(setLoading(true));
 
       const response = await fetch(
-        "https://3b69-2600-8803-950d-fd00-7937-d04e-c0e1-2c90.ngrok-free.app/api/services/all"
+        "https://d4a4-2600-8803-950d-fd00-1518-5477-26ec-8519.ngrok-free.app/api/services/all"
       );
       if (!response.ok) {
         throw new Error("Network response was not ok " + response.statusText);
@@ -42,21 +42,14 @@ const ServicesPage = () => {
   }, []);
   //pale mint bg = "#E0F8E0
   const data = allservices?.filter((item) => item.id === ids);
-  const navToInfo = (id) => {
-    if (id) {
-      setId(id);
-       router.push({
-         pathname: "services/info",
-         query: { id: id },
-       });
+  const navToInfo = (item) => {
+    if (item) {
+      const itemString = JSON.stringify(item); // Serialize the item object
+      router.push({
+        pathname: "/services/info",
+        query: { item: itemString }, // Pass the serialized item
+      });
     }
-
-    router.push("/services/info");
-       router.push({
-         pathname: "services/info",
-         query: { id: id },
-       });
-
   };
   return (
     <>
@@ -74,7 +67,7 @@ const ServicesPage = () => {
           }}
           variant="heading22"
         >
-          Our Services{" "}
+          Our Services
         </Typography>
 
         <Typography
@@ -95,7 +88,7 @@ const ServicesPage = () => {
               <div
                 key={index}
                 // onClick={() => OpenModal(item.id)}
-                onClick={() => navToInfo(item?.id)}
+                onClick={() => navToInfo(item)}
                 className="servicesCard"
               >
                 <img

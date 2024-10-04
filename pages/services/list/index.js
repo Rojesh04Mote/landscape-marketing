@@ -29,7 +29,7 @@ const ListofServices = () => {
       dispatch(setLoading(true));
 
       const response = await fetch(
-        `https://3b69-2600-8803-950d-fd00-7937-d04e-c0e1-2c90.ngrok-free.app/api/services/${id}/lists/`
+        `https://d4a4-2600-8803-950d-fd00-1518-5477-26ec-8519.ngrok-free.app/api/services/${id}/lists/`
       );
       if (!response.ok) {
         throw new Error("Network response was not ok " + response.statusText);
