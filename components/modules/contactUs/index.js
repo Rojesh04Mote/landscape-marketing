@@ -18,7 +18,6 @@ import { UploadOutlined } from "@ant-design/icons";
 
 const ContactUsPage = () => {
   const [contactList, setContactList] = useState();
-  console.log("🚀 ~ ContactUsPage ~ contactList:", contactList)
   const [form] = Form.useForm();
   const [FeaturedImage, setFeaturedImage] = useState([]);
 
@@ -30,7 +29,7 @@ const ContactUsPage = () => {
       dispatch(setLoading(true));
 
       const response = await fetch(
-        "https://d4a4-2600-8803-950d-fd00-1518-5477-26ec-8519.ngrok-free.app/api/user/list"
+        "https://7c9a-2600-8803-950d-fd00-9c31-d3cf-efdb-6160.ngrok-free.app/api/user/list"
       );
       if (!response.ok) {
         throw new Error("Network response was not ok " + response.statusText);
@@ -65,7 +64,7 @@ const ContactUsPage = () => {
   //             });
   //         }
 
-  //         const response = await fetch("https://d4a4-2600-8803-950d-fd00-1518-5477-26ec-8519.ngrok-free.app///api/contacts/", {
+  //         const response = await fetch("https://7c9a-2600-8803-950d-fd00-9c31-d3cf-efdb-6160.ngrok-free.app////api/contacts/", {
   //             method: 'POST',
   //             body: formData,
   //             headers: {
@@ -105,7 +104,7 @@ const ContactUsPage = () => {
 
       // Send the form data using fetch
       const response = await fetch(
-        "https://d4a4-2600-8803-950d-fd00-1518-5477-26ec-8519.ngrok-free.app/api/contacts/",
+        "https://7c9a-2600-8803-950d-fd00-9c31-d3cf-efdb-6160.ngrok-free.app/api/contacts/",
         {
           method: "POST",
           body: formData,

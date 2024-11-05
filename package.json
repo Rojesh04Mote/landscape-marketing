@@ -25,7 +25,8 @@
     "react-slick": "^0.30.2",
     "redux": "^4.2.0",
     "redux-thunk": "^2.4.1",
-    "slick-carousel": "^1.8.1"
+    "slick-carousel": "^1.8.1",
+    "video.js": "^8.19.1"
   },
   "devDependencies": {
     "eslint": "^8",

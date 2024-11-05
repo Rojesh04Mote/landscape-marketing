@@ -18,6 +18,16 @@ const ListofServices = () => {
     setId(id);
     setIsMOdalOpen(true);
   };
+
+    const navToInfo = (item) => {
+      if (item) {
+        const itemString = JSON.stringify(item); // Serialize the item object
+        router.push({
+          pathname: "/services/info",
+          query: { item: itemString }, // Pass the serialized item
+        });
+      }
+    };
   const dispatch = useDispatch();
   const router = useRouter();
   const id = router?.query?.id;
@@ -29,7 +39,7 @@ const ListofServices = () => {
       dispatch(setLoading(true));
 
       const response = await fetch(
-        `https://d4a4-2600-8803-950d-fd00-1518-5477-26ec-8519.ngrok-free.app/api/services/${id}/lists/`
+        `https://7c9a-2600-8803-950d-fd00-9c31-d3cf-efdb-6160.ngrok-free.app/api/services/${id}/lists/`
       );
       if (!response.ok) {
         throw new Error("Network response was not ok " + response.statusText);
@@ -80,7 +90,8 @@ const ListofServices = () => {
               <>
                 <div
                   key={index}
-                  onClick={() => OpenModal(item.id)}
+                  // onClick={() => OpenModal(item.id)}
+                  onClick={()=> navToInfo(item)}
                   className="servicesCard1"
                 >
                   <img
