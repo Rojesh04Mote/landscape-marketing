@@ -6,6 +6,7 @@ import Typography from "@/components/elements/Typography";
 import { Button, Flex } from "antd";
 import SimpleImageSlider from "react-simple-image-slider";
 import ServicesDescriptionModal from "@/components/elements/Modal";
+import { ArrowLeftOutlined } from "@ant-design/icons";
 
 const ServiceInfoDetail = () => {
   const router = useRouter();
@@ -34,7 +35,7 @@ const ServiceInfoDetail = () => {
       dispatch(setLoading(true));
 
       const response = await fetch(
-        "https://7c9a-2600-8803-950d-fd00-9c31-d3cf-efdb-6160.ngrok-free.app/api/services/all"
+        "https://39aa-2600-8803-950d-fd00-7722-f541-ee53-7aec.ngrok-free.app/api/services/all"
       );
       if (!response.ok) {
         throw new Error("Network response was not ok " + response.statusText);
@@ -61,9 +62,27 @@ const ServiceInfoDetail = () => {
     setIsMOdalOpen(true);
   };
 
-
+ const handleBack = () => {
+   router.back();
+ };
   return (
     <div>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          padding: 8,
+          gap: 16,
+          alignItems: "center",
+        }}
+      >
+        <Button
+          type="text"
+          icon={<ArrowLeftOutlined />}
+          onClick={handleBack}
+        ></Button>
+        <Typography variant="heading18">{serviceItem?.name}</Typography>
+      </div>
       <Flex vertical style={{ padding: 16 }} gap={24}>
         {values &&
           values.length > 0 &&
@@ -127,7 +146,6 @@ const ServiceInfoDetail = () => {
           </Typography>
         </Flex>
       </Flex>
-
       <ServicesDescriptionModal
         isModalOpen={ismodalOpen}
         handleCancel={handleCancel}

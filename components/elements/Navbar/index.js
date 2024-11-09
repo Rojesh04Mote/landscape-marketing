@@ -28,7 +28,7 @@ const Navbar = () => {
       dispatch(setLoading(true));
 
       const response = await fetch(
-        "https://7c9a-2600-8803-950d-fd00-9c31-d3cf-efdb-6160.ngrok-free.app/api/user/list"
+        "https://39aa-2600-8803-950d-fd00-7722-f541-ee53-7aec.ngrok-free.app/api/user/list"
       );
       if (!response.ok) {
         throw new Error("Network response was not ok " + response.statusText);

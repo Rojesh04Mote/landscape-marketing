@@ -29,7 +29,7 @@ const ContactUsPage = () => {
       dispatch(setLoading(true));
 
       const response = await fetch(
-        "https://7c9a-2600-8803-950d-fd00-9c31-d3cf-efdb-6160.ngrok-free.app/api/user/list"
+        "https://39aa-2600-8803-950d-fd00-7722-f541-ee53-7aec.ngrok-free.app/api/user/list"
       );
       if (!response.ok) {
         throw new Error("Network response was not ok " + response.statusText);
@@ -64,7 +64,7 @@ const ContactUsPage = () => {
   //             });
   //         }
 
-  //         const response = await fetch("https://7c9a-2600-8803-950d-fd00-9c31-d3cf-efdb-6160.ngrok-free.app////api/contacts/", {
+  //         const response = await fetch("https://39aa-2600-8803-950d-fd00-7722-f541-ee53-7aec.ngrok-free.app////api/contacts/", {
   //             method: 'POST',
   //             body: formData,
   //             headers: {
@@ -104,7 +104,7 @@ const ContactUsPage = () => {
 
       // Send the form data using fetch
       const response = await fetch(
-        "https://7c9a-2600-8803-950d-fd00-9c31-d3cf-efdb-6160.ngrok-free.app/api/contacts/",
+        "https://39aa-2600-8803-950d-fd00-7722-f541-ee53-7aec.ngrok-free.app/api/contacts/",
         {
           method: "POST",
           body: formData,
@@ -290,7 +290,21 @@ const ContactUsPage = () => {
               placeholder="Enter your name"
             />
           </Form.Item>
-          <Form.Item name="email" label="Email" style={{ paddingBottom: 12 }}>
+          <Form.Item
+            name="email"
+            label="Email"
+            style={{ paddingBottom: 12 }}
+            rules={[
+              {
+                required: true,
+                message: "Email is required!",
+              },
+              {
+                type: "email",
+                message: "Please enter a valid email address!",
+              },
+            ]}
+          >
             <Input
               style={{ border: "1px solid #2E8B57" }}
               placeholder="Enter your email"
