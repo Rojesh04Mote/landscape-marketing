@@ -26,33 +26,7 @@ const ServiceInfoDetail = () => {
   const [videostatus, setVideoStatus] = useState("");
   const [ismodalOpen, setIsMOdalOpen] = useState(false);
 
-  useEffect(() => {
-    fetchAllServices();
-  }, []);
-
-  const fetchAllServices = async () => {
-    try {
-      dispatch(setLoading(true));
-
-      const response = await fetch(
-        "https://39aa-2600-8803-950d-fd00-7722-f541-ee53-7aec.ngrok-free.app/api/services/all"
-      );
-      if (!response.ok) {
-        throw new Error("Network response was not ok " + response.statusText);
-      }
-      const data = await response.json();
-      setAllServices(data);
-      dispatch(setLoading(false));
-    } catch (error) {
-      dispatch(setLoading(false));
-    } finally {
-    }
-  };
-
-  const values = allservices?.filter(
-    (items) => Number(items?.id) === Number(serviceItem?.id)
-  );
-
+  
   const handleCancel = () => {
     setIsMOdalOpen(false);
   };
@@ -62,9 +36,13 @@ const ServiceInfoDetail = () => {
     setIsMOdalOpen(true);
   };
 
- const handleBack = () => {
-   router.back();
- };
+  const handleBack = () => {
+    router.back();
+  };
+
+  const sliderImage = serviceItem?.services_list_pic.map((pic) => ({
+    url: pic?.images,
+  }));
   return (
     <div>
       <div
@@ -84,34 +62,26 @@ const ServiceInfoDetail = () => {
         <Typography variant="heading18">{serviceItem?.name}</Typography>
       </div>
       <Flex vertical style={{ padding: 16 }} gap={24}>
-        {values &&
-          values.length > 0 &&
-          values.map((item, index) => {
-            const sliderImages = item.services_list_pic.map((pic) => ({
-              url: pic?.images,
-            }));
+        <div>
+          {sliderImage && (
+            <SimpleImageSlider
+              width={"98%"}
+              height={350}
+              images={sliderImage}
+              showBullets={true}
+              showNavs={true}
+              bgColor="#f9f9f9"
+              slideDuration={0.5}
+              autoPlay={true}
+              autoPlayDelay={3.0}
+              style={{ objectFit: "cover" }}
+            />
+          )}
+        </div>
 
-            return (
-              <div key={index}>
-                {sliderImages.length > 0 && (
-                  <SimpleImageSlider
-                    width={"98%"}
-                    height={350}
-                    images={sliderImages}
-                    showBullets={true}
-                    showNavs={true}
-                    bgColor="#f9f9f9"
-                    slideDuration={0.5}
-                    autoPlay={true}
-                    autoPlayDelay={3.0}
-                    style={{ objectFit: "cover" }}
-                  />
-                )}
-              </div>
-            );
-          })}
-
-        <Flex style={{ overflow: "scroll" }} vertical gap={16}>
+        <Flex 
+        // style={{ overflow: "scroll" }}
+         vertical gap={16}>
           <Typography
             style={{ textAlign: "center", paddingBottom: 16 }}
             variant="heading16"
@@ -142,7 +112,7 @@ const ServiceInfoDetail = () => {
             style={{ color: "gray", width: "100%", textAlign: "center" }}
             variant="text14"
           >
-            {values ? values[0]?.description : ""}
+            {serviceItem ? serviceItem?.description : ""}
           </Typography>
         </Flex>
       </Flex>

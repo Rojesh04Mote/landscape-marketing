@@ -1,7 +1,7 @@
 import * as types from '../actionTypes';
 
 const initialState = {
-    navbarheight: "",
+    navbarheight: 130,
 }
 
 const navbarReducer = (state = initialState, action) => {

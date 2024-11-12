@@ -11,7 +11,6 @@ const ListofServices = () => {
   const [ismodalOpen, setIsMOdalOpen] = useState(false);
   const [ids, setId] = useState("");
   const [serviceData, setServiceData] = useState();
-  console.log("🚀 ~ ListofServices ~ serviceData:", serviceData)
   const handleCancel = () => {
     setIsMOdalOpen(false);
   };
@@ -40,7 +39,7 @@ const ListofServices = () => {
       dispatch(setLoading(true));
 
       const response = await fetch(
-        `https://39aa-2600-8803-950d-fd00-7722-f541-ee53-7aec.ngrok-free.app/api/services/${id}/lists/`
+        `https://def2-2600-8803-950d-fd00-c45-bd1a-9eb6-6c1c.ngrok-free.app/api/services/${id}/lists/`
       );
       if (!response.ok) {
         throw new Error("Network response was not ok " + response.statusText);
