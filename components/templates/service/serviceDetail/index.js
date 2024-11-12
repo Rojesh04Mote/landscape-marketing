@@ -66,7 +66,7 @@ const ServiceInfoDetail = () => {
           {sliderImage && (
             <SimpleImageSlider
               width={"98%"}
-              height={350}
+              height={400}
               images={sliderImage}
               showBullets={true}
               showNavs={true}
@@ -109,8 +109,8 @@ const ServiceInfoDetail = () => {
             Description
           </Typography>
           <Typography
-            style={{ color: "gray", width: "100%", textAlign: "center" }}
-            variant="text14"
+            style={{ color: "grey", width: "100%", textAlign: "center" }}
+            variant="text22"
           >
             {serviceItem ? serviceItem?.description : ""}
           </Typography>

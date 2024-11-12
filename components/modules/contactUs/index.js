@@ -46,46 +46,10 @@ const ContactUsPage = () => {
     fetchcontactlist();
   }, []);
 
-  // const ContactPostRequest = async (value) => {
-  //     try {
-  //         dispatch(setLoading(true));
-  //         let formData = new FormData();
-
-  //         // Append text fields
-  //         formData.append('username', value?.username);
-  //         formData.append('email', value?.email);
-  //         formData.append('contact_number', value?.contact_number);
-  //         formData.append('service_required', value?.service_required);
-
-  //         // Append image file if it exists
-  //         if (FeaturedImage) {
-  //             FeaturedImage.forEach((item, index) => {
-  //                 formData.append(`contact_form_pic`, item.originFileObj);
-  //             });
-  //         }
-
-  //         const response = await fetch("https://def2-2600-8803-950d-fd00-c45-bd1a-9eb6-6c1c.ngrok-free.app////api/contacts/", {
-  //             method: 'POST',
-  //             body: formData,
-  //             headers: {
-  //                 'Content-Type': 'multipart/form-data',
-  //             },
-  //             // No need to set 'Content-Type', browser will set it automatically
-  //         });
-  //         dispatch(setLoading(false));
-  //         // form.resetFields();
-
-  //         if (response.ok) {
-  //             SuccessNotification("success", "Success", "Your information has been submitted successfully");
-  //         } else {
-  //             ErrorNotifi("error", "Error", "There was an issue submitting your information.");
-  //         }
-  //     } catch (error) {
-  //         console.log("error", error);
-  //         ErrorNotifi("error", "Error", "There was an issue with the request.");
-  //     }
-  // };
-
+  const next = () => {
+    setFeaturedImage([]);
+    form.resetFields();
+  };
   const ContactPostRequest = async (value) => {
     try {
       dispatch(setLoading(true));
@@ -121,6 +85,7 @@ const ContactUsPage = () => {
           "Success",
           "Your information has been submitted successfully"
         );
+        next();
       } else {
         ErrorNotifi(
           "error",
@@ -283,7 +248,18 @@ const ContactUsPage = () => {
         >
           <Typography variant="heading16">Contact form</Typography>
 
-          <Form.Item name="username" label="Name" style={{ paddingBottom: 12 }}>
+          <Form.Item
+            name="username"
+            label="Name"
+            style={{ paddingBottom: 12 }}
+            rules={[
+              {
+                required: true,
+                message: "Username is required!",
+              },
+           
+            ]}
+          >
             <Input
               style={{ border: "1px solid #2E8B57" }}
               placeholder="Enter your name"
@@ -342,6 +318,7 @@ const ContactUsPage = () => {
             />
           </Form.Item>
           <Form.Item
+            name="image"
             label="Upload image for service"
             style={{ paddingBottom: 12 }}
           >
