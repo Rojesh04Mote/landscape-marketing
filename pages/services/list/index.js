@@ -19,13 +19,18 @@ const ListofServices = () => {
     setIsMOdalOpen(true);
   };
 
+ 
     const navToInfo = (item) => {
       if (item) {
         const itemString = JSON.stringify(item); // Serialize the item object
-        router.push({
-          pathname: "/services/info",
-          query: { item: itemString }, // Pass the serialized item
-        });
+        const id =item?.id;
+        router.push(
+          {
+            pathname: `/services/info/${id}`,
+            query: { item: itemString },
+          },
+          `/services/info/${id}`
+        );
       }
     };
   const dispatch = useDispatch();
@@ -39,7 +44,7 @@ const ListofServices = () => {
       dispatch(setLoading(true));
 
       const response = await fetch(
-        `https://def2-2600-8803-950d-fd00-c45-bd1a-9eb6-6c1c.ngrok-free.app/api/services/${id}/lists/`
+        `https://36e4-2600-8803-950d-fd00-9552-5913-641-c939.ngrok-free.app/api/services/${id}/lists/`
       );
       if (!response.ok) {
         throw new Error("Network response was not ok " + response.statusText);

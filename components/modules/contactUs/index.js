@@ -29,7 +29,7 @@ const ContactUsPage = () => {
       dispatch(setLoading(true));
 
       const response = await fetch(
-        "https://def2-2600-8803-950d-fd00-c45-bd1a-9eb6-6c1c.ngrok-free.app/api/user/list"
+        "https://36e4-2600-8803-950d-fd00-9552-5913-641-c939.ngrok-free.app/api/user/list"
       );
       if (!response.ok) {
         throw new Error("Network response was not ok " + response.statusText);
@@ -68,7 +68,7 @@ const ContactUsPage = () => {
 
       // Send the form data using fetch
       const response = await fetch(
-        "https://def2-2600-8803-950d-fd00-c45-bd1a-9eb6-6c1c.ngrok-free.app/api/contacts/",
+        "https://36e4-2600-8803-950d-fd00-9552-5913-641-c939.ngrok-free.app/api/contacts/",
         {
           method: "POST",
           body: formData,
